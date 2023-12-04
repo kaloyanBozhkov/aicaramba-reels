@@ -76,9 +76,7 @@ export const encodeGetParams = (p: Record<string, string>) =>
 
 export async function fetchGetJSON<T>(url: string, usePonyfill = true): Promise<T> {
  try {
-  const data = await (usePonyfill ? fetchPonyfill() : { fetch })
-   .fetch(url)
-   .then((res) => res.json())
+  const data = await fetch(url).then((res) => res.json())
   if (data.statusCode === 500 && data.message) throw Error(data.message)
   return data
  } catch (err) {
