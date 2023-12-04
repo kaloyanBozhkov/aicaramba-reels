@@ -1,6 +1,5 @@
 import { AbsoluteFill, Audio, Series, staticFile } from 'remotion'
 
-import products from '@/../public/products.json'
 import useRngEveryFrames from '@/hooks/useRngEveryFrames'
 import { TSHIRT_SLIDE_DURATION_IN_FRAMES, VIDEO_FPS, messages } from '@/types/constants'
 
@@ -13,8 +12,12 @@ import Slide from '../components/templates/Slide'
 
 const DURATION_TEXT = 4
 
-const Main = () => {
- const ps = products.slice(0, 5)
+export type MainProps = {
+ productUrls: string[]
+}
+
+const Main = ({ productUrls }: MainProps) => {
+ const ps = productUrls.slice(0, 5)
  const msgN = useRngEveryFrames({ everyS: DURATION_TEXT, min: 0, max: messages.length - 1 })
  const msg = messages[msgN]
 

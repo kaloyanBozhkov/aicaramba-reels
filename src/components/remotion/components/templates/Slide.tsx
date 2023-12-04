@@ -19,7 +19,7 @@ const Slide = ({
    {
     key: 'amount',
     startAt: 0,
-    duration: 1.2 * VIDEO_FPS,
+    duration: 0.3 * VIDEO_FPS,
     delay: 0,
    },
   ],
