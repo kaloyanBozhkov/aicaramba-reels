@@ -33,7 +33,7 @@ const Main = ({ artworkImageUrls }: MainProps) => {
      <TypeWriter
       text={msg}
       speed={msg.length / (VIDEO_FPS * 2)}
-      cursorClassName="bg-white w-[30px]"
+      cursorClassName="bg-white min-w-[30px]"
      />
     </FancyTitle>
     <div className="bg-black/20 backdrop-blur-sm absolute -inset-10 -z-10" />

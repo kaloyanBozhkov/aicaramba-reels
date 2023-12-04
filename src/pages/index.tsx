@@ -3,6 +3,7 @@ import React from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
+import products from '@/../public/products.json'
 import Main from '@/components/remotion/scenes/Main.scene'
 import { DURATION_IN_FRAMES, VIDEO_FPS, VIDEO_HEIGHT, VIDEO_WIDTH } from '@/types/constants'
 import { Player } from '@remotion/player'
@@ -21,7 +22,7 @@ const Home: NextPage = () => {
      <Player
       component={Main}
       inputProps={{
-       artworkImageUrls: [],
+       artworkImageUrls: products.slice(0, 5),
       }}
       durationInFrames={DURATION_IN_FRAMES}
       fps={VIDEO_FPS}
