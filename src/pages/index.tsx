@@ -8,14 +8,6 @@ import { DURATION_IN_FRAMES, VIDEO_FPS, VIDEO_HEIGHT, VIDEO_WIDTH } from '@/type
 import { Player } from '@remotion/player'
 
 const Home: NextPage = () => {
- const [text] = useState<string>('default')
-
- const inputProps = useMemo(() => {
-  return {
-   title: text,
-  }
- }, [text])
-
  return (
   <div>
    <Head>
@@ -28,7 +20,9 @@ const Home: NextPage = () => {
     <div className="scale-50 border-black border-[1px] translate-y-[-25%]">
      <Player
       component={Main}
-      inputProps={inputProps}
+      inputProps={{
+       artworkImageUrls: [],
+      }}
       durationInFrames={DURATION_IN_FRAMES}
       fps={VIDEO_FPS}
       compositionHeight={VIDEO_HEIGHT}
