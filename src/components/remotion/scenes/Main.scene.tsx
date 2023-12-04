@@ -13,11 +13,11 @@ import Slide from '../components/templates/Slide'
 const DURATION_TEXT = 4
 
 export type MainProps = {
- productUrls: string[]
+ artworkImageUrls: string[]
 }
 
-const Main = ({ productUrls }: MainProps) => {
- const ps = productUrls.slice(0, 5)
+const Main = ({ artworkImageUrls }: MainProps) => {
+ const ps = artworkImageUrls
  const msgN = useRngEveryFrames({ everyS: DURATION_TEXT, min: 0, max: messages.length - 1 })
  const msg = messages[msgN]
 

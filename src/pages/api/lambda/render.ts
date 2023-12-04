@@ -23,6 +23,7 @@ const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
   }
 
   const result = await renderMediaOnLambda({
+   deleteAfter: '3-days',
    codec: 'h264',
    functionName: speculateFunctionName({
     diskSizeInMb: DISK,
