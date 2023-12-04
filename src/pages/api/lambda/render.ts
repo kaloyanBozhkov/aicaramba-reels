@@ -1,7 +1,11 @@
 import { DISK, RAM, REGION, SITE_NAME, TIMEOUT } from '@/../config.mjs'
 import { executeApi } from '@/helpers/api-response'
 import { CompositionPropsType, RenderRequest } from '@/lambda/schema'
-import { AwsRegion, RenderMediaOnLambdaOutput } from '@remotion/lambda/client'
+import {
+ AwsRegion,
+ RenderMediaOnLambdaInput,
+ RenderMediaOnLambdaOutput,
+} from '@remotion/lambda/client'
 import { renderMediaOnLambda, speculateFunctionName } from '@remotion/lambda/client'
 
 const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
@@ -22,6 +26,11 @@ const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
    )
   }
 
+  const webhook: RenderMediaOnLambdaInput['webhook'] = {
+   url: process.env.AICARAMBA_WEBHOOK_ENDPOINT ?? 'AICARAMBA_WEBHOOK_ENDPOINT UNSET',
+   secret: process.env.WEBHOOK_SECRET as string,
+  }
+
   const result = await renderMediaOnLambda({
    deleteAfter: '3-days',
    codec: 'h264',
@@ -37,8 +46,9 @@ const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
    framesPerLambda: 10,
    downloadBehavior: {
     type: 'download',
-    fileName: 'video.mp4',
+    fileName: 'aicaramba-reel.mp4',
    },
+   webhook,
   })
 
   return result
