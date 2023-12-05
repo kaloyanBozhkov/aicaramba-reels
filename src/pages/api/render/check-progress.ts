@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import type { NextFetchEvent } from 'next/server'
 import { z } from 'zod'
 
+import { qstash } from '@/server/qstash'
 import { asyncWait, fetchPostJSON, getBaseUrl } from '@/utils/utils.common'
 
 const CheckProgressSchema = z.object({
@@ -66,16 +67,15 @@ export default async function checkProgressServerless(req: NextRequest, event: N
      } else if (resp.data.type === 'progress') {
       if (retryCount > 60 * 60) throw Error('Processing is taking too long!')
       console.log('Progress:', resp.data.progress)
-      await fetchPostJSON(
-       `${getBaseUrl(false)}/api/render/check-progress`,
-       {
+      await qstash.publishJSON({
+       url: `${getBaseUrl(false)}/api/render/check-progress`,
+       body: {
         secret,
         renderId,
         bucketName,
         retryCount: retryCount + 1,
        },
-       false
-      )
+      })
      } else {
       console.error(resp.data)
       throw Error('Failed to process video')
