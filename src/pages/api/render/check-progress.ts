@@ -43,9 +43,7 @@ export default async function checkProgressServerless(req: NextRequest, event: N
   event.waitUntil(
    (async () => {
     try {
-     console.log('starting')
      await asyncWait(3)
-     console.log('3s ran')
 
      const resp = await fetchPostJSON<{
       data: {

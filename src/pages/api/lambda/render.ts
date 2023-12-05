@@ -1,6 +1,7 @@
 import { DISK, RAM, REGION, SITE_NAME, TIMEOUT } from '@/../config.mjs'
 import { executeApi } from '@/helpers/api-response'
 import { CompositionPropsType, RenderRequest } from '@/lambda/schema'
+import { qstash } from '@/server/qstash'
 import { fetchPostJSON, getBaseUrl } from '@/utils/utils.common'
 import {
  AwsRegion,
@@ -56,10 +57,13 @@ const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
 
   if (req.body.withLogProgress) {
    console.log('About to hit', `${getBaseUrl(false)}/api/render/check-progress`)
-   await fetchPostJSON(`${getBaseUrl(false)}/api/render/check-progress`, {
-    renderId: result.renderId,
-    bucketName: result.bucketName,
-    secret: process.env.SENSITIVE_CRUD_SECRET!,
+   await qstash.publishJSON({
+    url: `${getBaseUrl(false)}/api/render/check-progress`,
+    body: {
+     renderId: result.renderId,
+     bucketName: result.bucketName,
+     secret: process.env.SENSITIVE_CRUD_SECRET!,
+    },
    })
   }
 

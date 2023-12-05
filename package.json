@@ -22,6 +22,7 @@
     "@remotion/paths": "4.0.75",
     "@remotion/player": "4.0.75",
     "@remotion/shapes": "4.0.75",
+    "@upstash/qstash": "^2.3.0",
     "fetch-ponyfill": "^7.1.0",
     "next": "14.0.3",
     "react": "18.2.0",
