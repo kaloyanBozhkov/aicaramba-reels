@@ -19,12 +19,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    (id) => `https://aicaramba.s3.eu-central-1.amazonaws.com/reels/${id}`
   )
 
-  const resp = await fetchPostJSON<RenderMediaOnLambdaOutput>(`${getBaseUrl()}/api/lambda/render`, {
-   id: 'Main',
-   inputProps: {
-    artworkImageUrls,
-   },
-  })
+  const resp = await fetchPostJSON<RenderMediaOnLambdaOutput>(
+   `${getBaseUrl(false)}/api/lambda/render`,
+   {
+    id: 'Main',
+    inputProps: {
+     artworkImageUrls,
+    },
+    withLogProgress: true,
+   }
+  )
 
   res.status(200).json(resp)
  } catch (error: any) {

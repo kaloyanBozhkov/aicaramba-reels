@@ -88,3 +88,5 @@ export async function fetchGetJSON<T>(url: string, usePonyfill = true): Promise<
   throw err
  }
 }
+
+export const asyncWait = (n: number) => new Promise((resolve) => setTimeout(resolve, n * 1000))

@@ -7,6 +7,7 @@ export const CompositionProps = z.object({
 export const RenderRequest = z.object({
  id: z.string(),
  inputProps: CompositionProps,
+ withLogProgress: z.boolean().optional(),
 })
 
 export const ProgressRequest = z.object({
