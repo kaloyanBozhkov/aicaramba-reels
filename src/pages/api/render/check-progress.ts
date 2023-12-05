@@ -1,49 +1,101 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
+import type { NextFetchEvent } from 'next/server'
 import { z } from 'zod'
 
 import { asyncWait, fetchPostJSON, getBaseUrl } from '@/utils/utils.common'
 
-const InstagramPostSchema = z.object({
+const CheckProgressSchema = z.object({
  secret: z.string().uuid(),
  renderId: z.string(),
  bucketName: z.string(),
 })
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export const config = {
+ runtime: 'edge',
+}
+
+type CheckProgressPayload = (typeof CheckProgressSchema)['_output']
+
+export default async function checkProgressServerless(req: NextRequest, event: NextFetchEvent) {
+ const oops = () =>
+  NextResponse.json(
+   { error: 'Something went wrong' },
+   {
+    status: 500,
+    headers: {
+     'Content-Type': 'application/json',
+    },
+   }
+  )
+
+ if (req.method !== 'POST' || !req.body) return oops()
+
  try {
-  const { secret, renderId, bucketName } = InstagramPostSchema.parse(req.body)
+  const input = await req.body.getReader().read(),
+   decoder = new TextDecoder(),
+   string = decoder.decode(input.value),
+   data = JSON.parse(string) as CheckProgressPayload,
+   { secret, renderId, bucketName } = CheckProgressSchema.parse(data)
 
-  if (!secret || secret !== process.env.SENSITIVE_CRUD_SECRET) throw Error('Not allowed')
+  if (!secret || secret !== process.env.SENSITIVE_CRUD_SECRET) return oops()
 
-  await asyncWait(3)
+  event.waitUntil(
+   (async () => {
+    try {
+     await asyncWait(3)
 
-  const resp = await fetchPostJSON<{
-   data: { type: 'done' | 'progress' | 'error'; url?: string; progress?: number; message?: string }
-  }>(`${getBaseUrl(false)}/api/lambda/progress`, {
-   bucketName: bucketName,
-   id: renderId,
-  })
+     const resp = await fetchPostJSON<{
+      data: {
+       type: 'done' | 'progress' | 'error'
+       url?: string
+       progress?: number
+       message?: string
+      }
+     }>(
+      `${getBaseUrl(false)}/api/lambda/progress`,
+      {
+       bucketName: bucketName,
+       id: renderId,
+      },
+      false
+     )
 
-  if (resp?.data?.type === 'done') {
-   console.log('Finished url', resp.data.url)
-   res.status(200).json({ status: 'ready', url: resp.data.url })
-  } else if (resp.data.type === 'progress') {
-   console.log('Progress:', resp.data.progress)
-   res.status(200).json({ status: 'in-progress', progress: resp.data.progress })
-   await fetchPostJSON(`${getBaseUrl(false)}/api/render/check-progress`, {
-    secret,
-    renderId,
-    bucketName,
-   })
-  } else {
-   console.error(resp.data)
-   throw Error('Failed to process video')
-  }
- } catch (error: any) {
-  if (error instanceof z.ZodError) {
-   res.status(400).json({ error: error.errors })
-  } else {
-   res.status(500).json({ error: error?.message })
-  }
+     if (resp?.data?.type === 'done') {
+      console.log('Finished url', resp.data.url)
+     } else if (resp.data.type === 'progress') {
+      console.log('Progress:', resp.data.progress)
+      await fetchPostJSON(
+       `${getBaseUrl(false)}/api/render/check-progress`,
+       {
+        secret,
+        renderId,
+        bucketName,
+       },
+       false
+      )
+     } else {
+      console.error(resp.data)
+      throw Error('Failed to process video')
+     }
+    } catch (err) {
+     console.error('check-progress serverless operation failed', err)
+    }
+   })()
+  )
+
+  return NextResponse.json(
+   {
+    status: 'started',
+   },
+   {
+    status: 200,
+    headers: {
+     'Content-Type': 'application/json',
+    },
+   }
+  )
+ } catch (err) {
+  console.error('check-progress serverless', err)
+  oops()
  }
 }
