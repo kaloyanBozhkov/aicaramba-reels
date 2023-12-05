@@ -55,6 +55,7 @@ const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
   console.log('result', result)
 
   if (req.body.withLogProgress) {
+   console.log('About to hit', `${getBaseUrl(false)}/api/render/check-progress`)
    await fetchPostJSON(`${getBaseUrl(false)}/api/render/check-progress`, {
     renderId: result.renderId,
     bucketName: result.bucketName,
