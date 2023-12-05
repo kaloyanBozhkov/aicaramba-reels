@@ -2,7 +2,7 @@ import { DISK, RAM, REGION, SITE_NAME, TIMEOUT } from '@/../config.mjs'
 import { executeApi } from '@/helpers/api-response'
 import { CompositionPropsType, RenderRequest } from '@/lambda/schema'
 import { qstash } from '@/server/qstash'
-import { fetchPostJSON, getBaseUrl } from '@/utils/utils.common'
+import { getBaseUrl } from '@/utils/utils.common'
 import {
  AwsRegion,
  RenderMediaOnLambdaInput,
