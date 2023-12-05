@@ -14,16 +14,18 @@ const TShirtPreview = ({
 }) => {
  return (
   <div className={`${className} relative`}>
-   <Artwork
-    artworkUrl={artworkUrl}
-    className={`w-[40%] z-10 absolute`}
-    style={{
-     top: ARTWORK_CONFIG[color][sex].top,
-     left: ARTWORK_CONFIG[color][sex].left,
-     transform: `scale(${ARTWORK_CONFIG[color][sex].scale})`,
-    }}
-   />
-   <TShirt color={color} sex={sex} className="w-fit" />
+   <div className="absolute z-10 inset-0 top-[-15%] flex items-center justify-center">
+    <Artwork
+     artworkUrl={artworkUrl}
+     className={`w-[30%]`}
+     style={{
+      top: ARTWORK_CONFIG[color][sex].top,
+      left: ARTWORK_CONFIG[color][sex].left,
+      transform: `scale(${ARTWORK_CONFIG[color][sex].scale})`,
+     }}
+    />
+   </div>
+   <TShirt color={color} sex={sex} className="w-[80%] m-auto" />
   </div>
  )
 }

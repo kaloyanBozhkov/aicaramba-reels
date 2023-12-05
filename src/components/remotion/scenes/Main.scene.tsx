@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+
 import { AbsoluteFill, Audio, Series, staticFile } from 'remotion'
 
 import useRngEveryFrames from '@/hooks/useRngEveryFrames'
@@ -18,8 +20,18 @@ export type MainProps = {
 
 const Main = ({ artworkImageUrls }: MainProps) => {
  const ps = artworkImageUrls
- const msgN = useRngEveryFrames({ everyS: DURATION_TEXT, min: 0, max: messages.length - 1 })
- const msg = messages[msgN]
+ const remainingMessages = useRef(messages)
+ const msgN = useRngEveryFrames({
+  everyS: DURATION_TEXT,
+  min: 0,
+  max: remainingMessages.current.length - 1,
+  onMatchCallback: (msgN) => {
+   remainingMessages.current = remainingMessages.current.filter(
+    (m) => m !== remainingMessages.current[msgN]
+   )
+  },
+ })
+ const msg = remainingMessages.current[msgN]
 
  const footer = (
    <div className="relative z-0">
@@ -52,7 +64,7 @@ const Main = ({ artworkImageUrls }: MainProps) => {
     </Series>
    </div>
    <AbsoluteFill id="overlay-stuff">
-    <div className="h-full w-full p-10 flex flex-col">
+    <div className="h-full w-full px-[40px] py-[250px] flex flex-col">
      <Slide slideDir="down">{header}</Slide>
      <Slide slideDir="up" className="mt-auto">
       {footer}

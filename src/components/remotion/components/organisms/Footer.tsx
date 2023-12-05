@@ -12,11 +12,11 @@ const Footer = () => {
   <div className="flex flex-row justify-between">
    <Img
     src={staticFile('/assets/images/logo-rounded.png')}
-    width={180}
-    height={180}
+    width={200}
+    height={200}
     className={`transition duration-[1s] ${brightness}`}
    />
-   <div className="flex flex-col gap-0 drop-shadow-xl">
+   <div className="flex flex-col gap-0 drop-shadow-xl justify-center">
     <FancyTitle className={`bg-whiteGradient text-8xl transition duration-[1s] ${brightness}`}>
      AICaramba
     </FancyTitle>

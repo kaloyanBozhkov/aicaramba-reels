@@ -14,7 +14,7 @@ export const RemotionRoot = () => {
     fps={VIDEO_FPS}
     width={VIDEO_WIDTH}
     height={VIDEO_HEIGHT}
-    defaultProps={{ artworkImageUrls: products }}
+    defaultProps={{ artworkImageUrls: products.slice(0, 6) }}
    />
   </>
  )
