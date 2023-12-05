@@ -8,6 +8,7 @@ const CheckProgressSchema = z.object({
  secret: z.string().uuid(),
  renderId: z.string(),
  bucketName: z.string(),
+ retryCount: z.number().optional(),
 })
 
 export const config = {
@@ -35,7 +36,7 @@ export default async function checkProgressServerless(req: NextRequest, event: N
    decoder = new TextDecoder(),
    string = decoder.decode(input.value),
    data = JSON.parse(string) as CheckProgressPayload,
-   { secret, renderId, bucketName } = CheckProgressSchema.parse(data)
+   { secret, renderId, bucketName, retryCount = 1 } = CheckProgressSchema.parse(data)
 
   if (!secret || secret !== process.env.SENSITIVE_CRUD_SECRET) return oops()
 
@@ -63,6 +64,7 @@ export default async function checkProgressServerless(req: NextRequest, event: N
      if (resp?.data?.type === 'done') {
       console.log('Finished url', resp.data.url)
      } else if (resp.data.type === 'progress') {
+      if (retryCount > 60 * 60) throw Error('Processing is taking too long!')
       console.log('Progress:', resp.data.progress)
       await fetchPostJSON(
        `${getBaseUrl(false)}/api/render/check-progress`,
@@ -70,6 +72,7 @@ export default async function checkProgressServerless(req: NextRequest, event: N
         secret,
         renderId,
         bucketName,
+        retryCount: retryCount + 1,
        },
        false
       )
