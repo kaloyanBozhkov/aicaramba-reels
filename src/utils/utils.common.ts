@@ -1,3 +1,5 @@
+import fetchPonyfill from 'fetch-ponyfill'
+
 export const getBaseUrl = (useRelativeOnFE = true) => {
  if (typeof window !== 'undefined' && useRelativeOnFE)
   // browser should use relative path
@@ -12,10 +14,10 @@ export const getBaseUrl = (useRelativeOnFE = true) => {
  return `http://localhost:${process.env.PORT ?? 3001}`
 }
 
-export async function fetchPostJSON<T>(url: string, data?: {}): Promise<T> {
+export async function fetchPostJSON<T>(url: string, data?: {}, usePonyfill = true): Promise<T> {
  try {
   // Default options are marked with *
-  const response = await fetch(url, {
+  const response = await (usePonyfill ? fetchPonyfill() : { fetch }).fetch(url, {
    method: 'POST', // *GET, POST, PUT, DELETE, etc.
    mode: 'cors', // no-cors, *cors, same-origin
    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -44,10 +46,10 @@ export async function fetchPostJSON<T>(url: string, data?: {}): Promise<T> {
  }
 }
 
-export async function fetchDeleteJSON<T>(url: string): Promise<T | Error> {
+export async function fetchDeleteJSON<T>(url: string, usePonyfill = true): Promise<T | Error> {
  try {
   // Default options are marked with *
-  const response = await fetch(url, {
+  const response = await (usePonyfill ? fetchPonyfill() : { fetch }).fetch(url, {
    method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
    mode: 'cors', // no-cors, *cors, same-origin
    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -76,7 +78,9 @@ export const encodeGetParams = (p: Record<string, string>) =>
 
 export async function fetchGetJSON<T>(url: string, usePonyfill = true): Promise<T> {
  try {
-  const data = await fetch(url).then((res) => res.json())
+  const data = await (usePonyfill ? fetchPonyfill() : { fetch })
+   .fetch(url)
+   .then((res) => res.json())
   if (data.statusCode === 500 && data.message) throw Error(data.message)
   return data
  } catch (err) {
