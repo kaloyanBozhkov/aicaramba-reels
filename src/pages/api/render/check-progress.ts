@@ -44,7 +44,7 @@ export default async function checkProgressServerless(req: NextRequest, event: N
   event.waitUntil(
    (async () => {
     try {
-     await asyncWait(3 * retryCount)
+     await asyncWait(6 * retryCount)
 
      const resp = await fetchPostJSON<{
       data: {
@@ -65,7 +65,7 @@ export default async function checkProgressServerless(req: NextRequest, event: N
      if (resp?.data?.type === 'done') {
       console.log('Finished url', resp.data.url)
      } else if (resp.data.type === 'progress') {
-      if (retryCount > 60 * 60) throw Error('Processing is taking too long!')
+      if (retryCount > 20) throw Error('Processing is taking too long!')
       console.log('Progress:', resp.data.progress)
       await qstash.publishJSON({
        url: `${getBaseUrl(false)}/api/render/check-progress`,
