@@ -48,8 +48,8 @@ const Footer = ({ className = '' }: { className?: string }) => {
     style={{ opacity: opacity }}
    >
     <Animated animations={breath.current}>
-     <Card className="w-fit" bgClassName="-inset-y-0">
-      <FancyTitle className="bg-whiteGradient text-[50px] leading-[80px] font-medium">
+     <Card className="w-fit" bgClassName="-inset-y-1">
+      <FancyTitle className="bg-whiteGradient text-[45px] leading-[80px] font-medium">
        Craft Your Designs, absolutely 100% Free!
       </FancyTitle>
      </Card>
