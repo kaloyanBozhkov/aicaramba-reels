@@ -20,7 +20,12 @@ export const RemotionRoot = () => {
     fps={VIDEO_FPS}
     width={VIDEO_WIDTH}
     height={VIDEO_HEIGHT}
-    defaultProps={{ artworkImageUrls: products.slice(0, 6), messages }}
+    defaultProps={{
+     artworkImageUrls: products.slice(0, 6),
+     messages,
+     audioStartFrom: 0,
+     audioFileName: 'c1',
+    }}
    />
   </>
  )

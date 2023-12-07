@@ -11,10 +11,13 @@ import {
  VIDEO_HEIGHT,
  VIDEO_WIDTH,
  messages,
+ music,
 } from '@/types/constants'
+import { getRandomSongWithTime } from '@/utils/helpers'
 import { Player } from '@remotion/player'
 
 const Home: NextPage = () => {
+ const audio = getRandomSongWithTime(music)
  return (
   <div>
    <Head>
@@ -30,6 +33,8 @@ const Home: NextPage = () => {
       inputProps={{
        artworkImageUrls: products.slice(0, 5),
        messages: messages.slice(0, 6),
+       audioStartFrom: audio?.startTime ?? 0,
+       audioFileName: audio?.fileName ?? 'c1',
       }}
       durationInFrames={DURATION_IN_FRAMES}
       fps={VIDEO_FPS}

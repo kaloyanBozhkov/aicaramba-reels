@@ -9,19 +9,22 @@ const TripleText = ({
  className,
  title,
  titleClassName,
+ delay = 0,
+ speedFrames = 10,
 }: {
  text: string
  className: string
  title?: ReactNode
  titleClassName?: string
+ delay?: number
+ speedFrames?: number
 }) => {
- const speedFrames = 10
- const secondPhaseAt = speedFrames * 3
- const thirdPhaseAt = speedFrames * 4
- const fourthPhaseAt = speedFrames * 5
+ const secondPhaseAt = (delay + speedFrames) * 3
+ const thirdPhaseAt = (delay + speedFrames) * 4
+ const fourthPhaseAt = (delay + speedFrames) * 5
  const frame = useCurrentFrame()
- const t2 = useFrameAnim({ maxAtFrame: speedFrames, delayUntilFrame: speedFrames })
- const t3 = useFrameAnim({ maxAtFrame: speedFrames, delayUntilFrame: speedFrames * 2 })
+ const t2 = useFrameAnim({ maxAtFrame: speedFrames, delayUntilFrame: delay })
+ const t3 = useFrameAnim({ maxAtFrame: speedFrames, delayUntilFrame: speedFrames })
  const t4 = useFrameAnim({ maxAtFrame: speedFrames, delayUntilFrame: secondPhaseAt })
  const t5 = useFrameAnim({ maxAtFrame: speedFrames, delayUntilFrame: thirdPhaseAt })
  const t6 = useFrameAnim({ maxAtFrame: speedFrames, delayUntilFrame: fourthPhaseAt })

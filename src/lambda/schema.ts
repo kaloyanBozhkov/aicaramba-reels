@@ -2,6 +2,9 @@ import { z } from 'zod'
 
 export const CompositionProps = z.object({
  artworkImageUrls: z.array(z.string()),
+ audioStartFrom: z.number().optional(),
+ audioFileName: z.string().optional(),
+ messages: z.array(z.string()),
 })
 
 export const RenderRequest = z.object({

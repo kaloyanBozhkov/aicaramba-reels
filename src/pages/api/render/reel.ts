@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 
-import { messages } from '@/types/constants'
-import { getRandomSubset } from '@/utils/helpers'
+import { messages, music } from '@/types/constants'
+import { getRandomSongWithTime, getRandomSubset } from '@/utils/helpers'
 import { fetchPostJSON, getBaseUrl } from '@/utils/utils.common'
 import { RenderMediaOnLambdaOutput } from '@remotion/lambda'
 
@@ -18,8 +18,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!secret || secret !== process.env.SENSITIVE_CRUD_SECRET) throw Error('Not allowed')
 
   const artworkImageUrls = productIds.map(
-   (id) => `https://aicaramba.s3.eu-central-1.amazonaws.com/reels/${id}`
-  )
+    (id) => `https://aicaramba.s3.eu-central-1.amazonaws.com/reels/${id}`
+   ),
+   audio = getRandomSongWithTime(music)
 
   const resp = await fetchPostJSON<RenderMediaOnLambdaOutput>(
    `${getBaseUrl(false)}/api/lambda/render`,
@@ -28,6 +29,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     inputProps: {
      artworkImageUrls,
      messages: getRandomSubset(messages, 5),
+     audioStartFrom: audio?.startTime ?? 0,
+     audioFileName: audio?.fileName ?? 'c1',
     },
     withLogProgress: true,
     customData: {

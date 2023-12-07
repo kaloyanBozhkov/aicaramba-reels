@@ -17,9 +17,16 @@ const DURATION_TEXT = READ_FOR + ENTER_FOR
 export type MainProps = {
  artworkImageUrls: string[]
  messages: string[]
+ audioStartFrom: number
+ audioFileName: string
 }
 
-const Main = ({ artworkImageUrls, messages }: MainProps) => {
+const Main = ({
+ artworkImageUrls,
+ messages,
+ audioStartFrom = 0,
+ audioFileName = 'c1',
+}: MainProps) => {
  const ps = artworkImageUrls,
   msgIdx = useIncEveryFrames({
    everyS: DURATION_TEXT,
@@ -64,18 +71,23 @@ const Main = ({ artworkImageUrls, messages }: MainProps) => {
      </Slide>
     </div>
    </AbsoluteFill>
-   {/* <AbsoluteFill>
-    <div className="h-full w-full flex flex-col gap-8">
-     <Card>
-      <FancyTitle className="text-[100px] leading-[120px]">
-       <TypeWriter text="AICaramba!" speed={10} cursorClassName="bg-primaryGradient" />
-      </FancyTitle>
-     </Card>
-     <TripleText className="text-8xl" text="AICaramba" />
-    </div>
-   </AbsoluteFill> */}
+   {/* <Series>
+    <Series.Sequence durationInFrames={80}>
+     <AbsoluteFill style={{ left: '10%', top: '55%', zIndex: '1' }}>
+      <TripleText className="text-8xl opacity-30" text="AICaramba" />
+     </AbsoluteFill>
+    </Series.Sequence>
+    <Series.Sequence durationInFrames={80}>
+     <AbsoluteFill style={{ left: '40%', top: '5%', zIndex: '1' }}>
+      <TripleText className="text-8xl opacity-30" text="AICaramba" />
+     </AbsoluteFill>
+    </Series.Sequence>
+   </Series> */}
    <DynamicBg ps={ps} transitionDurationS={0.4} />
-   <Audio src={staticFile('/assets/audio/c.mp3')} />
+   <Audio
+    src={staticFile(`/assets/audio/${audioFileName}.mp3`)}
+    startFrom={audioStartFrom * VIDEO_FPS}
+   />
   </div>
  )
 }
