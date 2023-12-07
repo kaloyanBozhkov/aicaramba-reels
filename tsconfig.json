@@ -16,7 +16,8 @@
   "incremental": true,
   "noUnusedLocals": true,
   "paths": {
-   "@/*": ["./src/*"]
+   "@/*": ["./src/*"],
+   "remotion-animated": ["./dist"]
   }
  },
  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "remotion-webpack-override.mjs"],
