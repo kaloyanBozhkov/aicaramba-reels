@@ -1,4 +1,4 @@
-import { Scale } from '~remotion-animated'
+import { Scale } from 'remotion-animated'
 
 export const getBreath = (amountDown = -0.2, amountUp = 0.2, frames = 30) => {
  const down = 1 + amountDown,

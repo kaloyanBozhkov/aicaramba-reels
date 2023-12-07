@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { Animated } from '~remotion-animated'
+import { Animated } from 'remotion-animated'
 
 import { getBreath } from '@/animations/breathe'
 import { TSHIRT_SLIDE_DURATION_IN_FRAMES } from '@/types/constants'

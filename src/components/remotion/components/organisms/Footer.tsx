@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 
 import { Img, staticFile } from 'remotion'
-import { Animated } from '~remotion-animated'
+import { Animated } from 'remotion-animated'
 
 import { getBreath } from '@/animations/breathe'
 import { getRotate } from '@/animations/rotate'
