@@ -1,10 +1,20 @@
 import { ReactNode } from 'react'
 
-const Card = ({ children }: { children: ReactNode }) => {
+const Card = ({
+ children,
+ className = '',
+ bgClassName = '',
+}: {
+ children: ReactNode
+ className?: string
+ bgClassName?: string
+}) => {
  return (
-  <div className="p-8 rounded-[20px] overflow-hidden shadow-l relative z-0">
+  <div className={`relative z-0 ${className}`}>
    {children}
-   <div className="absolute inset-0 w-full h-full backdrop-blur-md bg-white/60 -z-10" />
+   <div
+    className={`bg-black/20 backdrop-blur-sm absolute -inset-10 -inset-y-5 -z-10 rounded-3xl ${bgClassName}`}
+   />
   </div>
  )
 }

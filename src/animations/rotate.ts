@@ -1,4 +1,4 @@
-import { Rotate } from 'remotion-animated'
+import { Rotate } from '~remotion-animated'
 
 export const getRotate = (amountDown = -20, amountUp = 20, frames = 30) =>
  new Array(200).fill(null).reduce(

@@ -3,6 +3,7 @@ import { AbsoluteFill, Audio, Series, staticFile } from 'remotion'
 import useIncEveryFrames from '@/hooks/useIncEveryFrames'
 import { TSHIRT_SLIDE_DURATION_IN_FRAMES, VIDEO_FPS } from '@/types/constants'
 
+import Card from '../components/atoms/Card'
 import FancyTitle from '../components/atoms/FancyTitle'
 import { TypeWriter } from '../components/atoms/TypeWriter'
 import DynamicBg from '../components/organisms/DynamicBg'
@@ -33,14 +34,9 @@ const Main = ({
    start: 0,
   })
 
- const footer = (
-   <div className="relative z-0 mx-20">
-    <Footer />
-    <div className="bg-black/20 backdrop-blur-sm absolute -inset-10 -inset-y-5 -z-10 rounded-3xl" />
-   </div>
-  ),
+ const footer = <Footer className="mx-20" />,
   header = (
-   <div className="relative z-0 mx-20">
+   <Card className="-inset-y-5 mx-20">
     <FancyTitle className="text-[50px] bg-whiteGradient">
      <TypeWriter
       text={messages[msgIdx]}
@@ -48,8 +44,7 @@ const Main = ({
       cursorClassName="bg-white min-w-[30px]"
      />
     </FancyTitle>
-    <div className="bg-black/20 backdrop-blur-sm absolute -inset-10 -inset-y-5 -z-10 rounded-3xl" />
-   </div>
+   </Card>
   )
 
  return (
@@ -66,23 +61,11 @@ const Main = ({
    <AbsoluteFill id="overlay-stuff">
     <div className="h-full w-full px-[40px] py-[250px] flex flex-col">
      <Slide slideDir="down">{header}</Slide>
-     <Slide slideDir="up" className="mt-auto">
+     <Slide slideDir="up" className="mt-auto" maxHeightPx={500}>
       {footer}
      </Slide>
     </div>
    </AbsoluteFill>
-   {/* <Series>
-    <Series.Sequence durationInFrames={80}>
-     <AbsoluteFill style={{ left: '10%', top: '55%', zIndex: '1' }}>
-      <TripleText className="text-8xl opacity-30" text="AICaramba" />
-     </AbsoluteFill>
-    </Series.Sequence>
-    <Series.Sequence durationInFrames={80}>
-     <AbsoluteFill style={{ left: '40%', top: '5%', zIndex: '1' }}>
-      <TripleText className="text-8xl opacity-30" text="AICaramba" />
-     </AbsoluteFill>
-    </Series.Sequence>
-   </Series> */}
    <DynamicBg ps={ps} transitionDurationS={0.4} />
    <Audio
     src={staticFile(`/assets/audio/${audioFileName}.mp3`)}
