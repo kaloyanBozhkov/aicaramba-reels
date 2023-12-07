@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 
-import { useCurrentFrame } from 'remotion'
+import { random, useCurrentFrame } from 'remotion'
 
 import { VIDEO_FPS } from '@/types/constants'
 
@@ -21,11 +21,25 @@ const useRngEveryFrames = ({
  const num = useRef(0)
 
  if (frame % (VIDEO_FPS * everyS) === 0) {
-  num.current = min + Math.random() * (max - min)
+  if (max === 0) return 0
+
+  let rng = min + random(`rng-${frame}`) * (max - min)
+
+  if (int) {
+   let c = 50
+   do {
+    rng = Math.floor(min + random(`rng-${frame}`) * (max - min))
+    c--
+   } while (Math.floor(rng) === num.current && c > 0)
+
+   num.current = Math.floor(rng)
+  } else {
+   num.current = rng
+  }
   onMatchCallback?.(num.current)
  }
 
- return int ? Math.floor(num.current) : num.current
+ return num.current
 }
 
 export default useRngEveryFrames

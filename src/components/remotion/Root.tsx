@@ -2,7 +2,13 @@ import { Composition } from 'remotion'
 
 import products from '@/../public/products.json'
 import Main from '@/components/remotion/scenes/Main.scene'
-import { DURATION_IN_FRAMES, VIDEO_FPS, VIDEO_HEIGHT, VIDEO_WIDTH } from '@/types/constants'
+import {
+ DURATION_IN_FRAMES,
+ VIDEO_FPS,
+ VIDEO_HEIGHT,
+ VIDEO_WIDTH,
+ messages,
+} from '@/types/constants'
 
 export const RemotionRoot = () => {
  return (
@@ -14,7 +20,7 @@ export const RemotionRoot = () => {
     fps={VIDEO_FPS}
     width={VIDEO_WIDTH}
     height={VIDEO_HEIGHT}
-    defaultProps={{ artworkImageUrls: products.slice(0, 6) }}
+    defaultProps={{ artworkImageUrls: products.slice(0, 6), messages }}
    />
   </>
  )

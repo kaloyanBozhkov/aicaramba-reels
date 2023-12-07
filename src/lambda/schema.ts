@@ -8,6 +8,7 @@ export const RenderRequest = z.object({
  id: z.string(),
  inputProps: CompositionProps,
  withLogProgress: z.boolean().optional(),
+ customData: z.record(z.any()).optional(),
 })
 
 export const ProgressRequest = z.object({

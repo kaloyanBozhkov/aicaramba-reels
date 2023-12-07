@@ -26,6 +26,8 @@ const useMultipleFrameAnim = <T extends string>({
      [key]: 0,
     }
 
+   if (acc[key] === 1) return acc
+
    let curr = (frame - startingPoint) / duration
 
    return {

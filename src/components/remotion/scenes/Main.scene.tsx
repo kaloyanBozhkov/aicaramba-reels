@@ -1,9 +1,7 @@
-import { useRef } from 'react'
-
 import { AbsoluteFill, Audio, Series, staticFile } from 'remotion'
 
-import useRngEveryFrames from '@/hooks/useRngEveryFrames'
-import { TSHIRT_SLIDE_DURATION_IN_FRAMES, VIDEO_FPS, messages } from '@/types/constants'
+import useIncEveryFrames from '@/hooks/useIncEveryFrames'
+import { TSHIRT_SLIDE_DURATION_IN_FRAMES, VIDEO_FPS } from '@/types/constants'
 
 import FancyTitle from '../components/atoms/FancyTitle'
 import { TypeWriter } from '../components/atoms/TypeWriter'
@@ -12,43 +10,38 @@ import Footer from '../components/organisms/Footer'
 import SlideShirts from '../components/organisms/SlideShirts'
 import Slide from '../components/templates/Slide'
 
-const DURATION_TEXT = 4
+const READ_FOR = 2
+const ENTER_FOR = 2
+const DURATION_TEXT = READ_FOR + ENTER_FOR
 
 export type MainProps = {
  artworkImageUrls: string[]
+ messages: string[]
 }
 
-const Main = ({ artworkImageUrls }: MainProps) => {
- const ps = artworkImageUrls
- const remainingMessages = useRef(messages)
- const msgN = useRngEveryFrames({
-  everyS: DURATION_TEXT,
-  min: 0,
-  max: remainingMessages.current.length - 1,
-  onMatchCallback: (msgN) => {
-   remainingMessages.current = remainingMessages.current.filter(
-    (m) => m !== remainingMessages.current[msgN]
-   )
-  },
- })
- const msg = remainingMessages.current[msgN]
+const Main = ({ artworkImageUrls, messages }: MainProps) => {
+ const ps = artworkImageUrls,
+  msgIdx = useIncEveryFrames({
+   everyS: DURATION_TEXT,
+   start: 0,
+  })
 
  const footer = (
-   <div className="relative z-0">
+   <div className="relative z-0 mx-20">
     <Footer />
-    <div className="bg-black/20 backdrop-blur-sm absolute -inset-10 -z-10" />
+    <div className="bg-black/20 backdrop-blur-sm absolute -inset-10 -inset-y-5 -z-10 rounded-3xl" />
    </div>
   ),
   header = (
-   <div className="relative z-0">
-    <FancyTitle className="text-6xl bg-whiteGradient">
+   <div className="relative z-0 mx-20">
+    <FancyTitle className="text-[50px] bg-whiteGradient">
      <TypeWriter
-      text={msg}
-      speed={msg.length / (VIDEO_FPS * 2)}
+      text={messages[msgIdx]}
+      speed={messages[msgIdx].length / (VIDEO_FPS * ENTER_FOR)}
       cursorClassName="bg-white min-w-[30px]"
      />
     </FancyTitle>
-    <div className="bg-black/20 backdrop-blur-sm absolute -inset-10 -z-10" />
+    <div className="bg-black/20 backdrop-blur-sm absolute -inset-10 -inset-y-5 -z-10 rounded-3xl" />
    </div>
   )
 

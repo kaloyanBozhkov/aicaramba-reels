@@ -21,7 +21,7 @@ export const TypeWriter = ({
  }
 
  const adjustedFrames = frame - resetAt.current
- // A new character every 3 frames
+ // A new character every 3 (speed) frames
  const charsShown = Math.floor(adjustedFrames / speed)
  const textToShow = text.slice(0, charsShown)
  // Show the cursor while the text is typing, then start blinking

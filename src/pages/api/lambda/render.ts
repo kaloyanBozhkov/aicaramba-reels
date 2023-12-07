@@ -31,6 +31,7 @@ const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
   const webhook: RenderMediaOnLambdaInput['webhook'] = {
    url: process.env.AICARAMBA_WEBHOOK_ENDPOINT ?? 'AICARAMBA_WEBHOOK_ENDPOINT UNSET',
    secret: process.env.WEBHOOK_SECRET as string,
+   customData: body.customData,
   }
 
   const result = await renderMediaOnLambda({
