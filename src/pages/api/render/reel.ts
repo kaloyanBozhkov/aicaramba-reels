@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 
+import { messages } from '@/types/constants'
+import { getRandomSubset } from '@/utils/helpers'
 import { fetchPostJSON, getBaseUrl } from '@/utils/utils.common'
 import { RenderMediaOnLambdaOutput } from '@remotion/lambda'
 
@@ -25,6 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     id: 'Main',
     inputProps: {
      artworkImageUrls,
+     messages: getRandomSubset(messages, 5),
     },
     withLogProgress: true,
     customData: {

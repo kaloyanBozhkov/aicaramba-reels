@@ -1,5 +1,3 @@
-import { useRef } from 'react'
-
 import { useCurrentFrame } from 'remotion'
 
 import { VIDEO_FPS } from '@/types/constants'

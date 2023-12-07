@@ -5,7 +5,13 @@ import Head from 'next/head'
 
 import products from '@/../public/products.json'
 import Main from '@/components/remotion/scenes/Main.scene'
-import { DURATION_IN_FRAMES, VIDEO_FPS, VIDEO_HEIGHT, VIDEO_WIDTH } from '@/types/constants'
+import {
+ DURATION_IN_FRAMES,
+ VIDEO_FPS,
+ VIDEO_HEIGHT,
+ VIDEO_WIDTH,
+ messages,
+} from '@/types/constants'
 import { Player } from '@remotion/player'
 
 const Home: NextPage = () => {
@@ -23,6 +29,7 @@ const Home: NextPage = () => {
       component={Main}
       inputProps={{
        artworkImageUrls: products.slice(0, 5),
+       messages: messages.slice(0, 6),
       }}
       durationInFrames={DURATION_IN_FRAMES}
       fps={VIDEO_FPS}
