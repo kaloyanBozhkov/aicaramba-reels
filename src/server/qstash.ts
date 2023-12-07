@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
  // use dev url from ngrok for local testing
  if (process.env.NODE_ENV === 'development') {
   globalForQstash.qstash.publishJSON = function publishJSON(req) {
-   const [, ...url] = req.url?.split('3000/') ?? [],
+   const [, ...url] = req.url?.split(process.env.PORT + '/') ?? [],
     injectedUrl = `${process.env.QSTASH_URL_DEV}/${url.join('/')}`
 
    return fetchPostJSON(injectedUrl, req?.body as any, false)
