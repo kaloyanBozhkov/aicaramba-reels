@@ -37,7 +37,7 @@ const Main = ({
  const footer = <Footer className="mx-20" />,
   header = (
    <Card className="-inset-y-5 mx-20">
-    <FancyTitle className="text-[50px] bg-whiteGradient">
+    <FancyTitle className="text-[50px] bg-whiteGradient whitespace-nowrap">
      <TypeWriter
       text={messages[msgIdx]}
       speed={messages[msgIdx].length / (VIDEO_FPS * ENTER_FOR)}
