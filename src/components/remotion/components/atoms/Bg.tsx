@@ -8,7 +8,7 @@ const Bg = ({ src, style }: { src: string; style?: object }) => {
   >
    <div className="relative w-max h-full flex items-center justify-center">
     <div className="w-full h-full backdrop-blur-md bg-white/10 absolute" />
-    <Img src={src} className="h-full w-auto max-w-none" />
+    <Img src={src} className="h-full w-auto max-w-none scale-[3]" />
    </div>
   </div>
  )
